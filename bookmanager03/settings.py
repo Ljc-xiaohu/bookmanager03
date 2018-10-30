@@ -40,6 +40,22 @@ INSTALLED_APPS = [
     'book.apps.BookConfig',
 ]
 
+
+# 在redis中保存session，需要引入第三方扩展，我们可以使用django-redis来解决
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+
+
+
 # flask中叫钩子函数，django叫中间层
 
 MIDDLEWARE = [

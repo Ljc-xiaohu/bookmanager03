@@ -118,11 +118,11 @@ def demo1_book(request, book_id, category_id):
     ]
 
     # safe=True
-    #　jsonresponse 可以安全的将字典转换为ｊｓｏｎ数据
+    # 　jsonresponse 可以安全的将字典转换为ｊｓｏｎ数据
     # 如果我们传递过来是一个非字典，这个时候 系统就不负责保证能够转换为json
     # safe=False 就相当于我们对这个代码负责
 
-    return JsonResponse(list,safe=False)
+    return JsonResponse(list, safe=False)
 
     # response = HttpResponse(content=,content_type=,status=)
     # content =,  返回的内容
@@ -137,3 +137,27 @@ def demo1_book(request, book_id, category_id):
 
 
     return HttpResponse('ok', status=500)
+
+
+def cookie(request):
+    # 获取cookie,可以通过HttpResponse对象的COOKIES属性来读取本次请求携带的cookie值
+    cookies = request.COOKIES
+    print(cookies)
+
+    # 设置cookie的时候 是在响应中设置
+    response = HttpResponse('cookie')
+
+    response.set_cookie('name', 'zhangsan')
+
+    # response.delete_cookie('name')
+
+    return response
+
+def session(request):
+
+    # 通过HttpRequest对象的session属性进行会话的读写操作,
+    #  从视图一开始便有request，方便，
+    #  如果用response的话，还要接收，创建，在设置，不方便
+    request.session['name']='abc'
+
+    return HttpResponse('session')
