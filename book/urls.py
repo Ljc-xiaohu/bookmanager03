@@ -13,5 +13,5 @@ urlpatterns = [
     # 正则分组 （）
     # 位置参数： 是根据正则的分组 来进行 视图函数变量的赋值
     # url(r'^(1)/(100)/$', views.demo1_book)
-    url(r'^(\d+)/(\d+)/$', views.demo1_book)
+    url(r'^(?P<category_id>\d+)/(?P<book_id>\d+)/$', views.demo1_book)
 ]
