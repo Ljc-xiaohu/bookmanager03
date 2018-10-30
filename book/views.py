@@ -1,5 +1,7 @@
+import json
+
 from django.http import HttpResponse
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 
 
 # Create your views here.
@@ -53,18 +55,85 @@ def demo1_book(request, book_id, category_id):
 
     ############################POST  JSON###############################
 
-    # 1.接收json数据
-    body = request.body
-    # print(body)
+    # # 1.接收json数据
+    # body = request.body
+    # # print(body)
+    #
+    # # 2.对body进行编码
+    # body_str = body.decode()
+    # print(body_str)
+    #
+    # # 3. 对json字符串进行处理 json.dumps() 将字典转换为字符串,
+    # # json.loads() 将字符串转换为字典
+    # import json
+    # params = json.loads(body_str)
+    # print(params)
 
-    # 2.对body进行编码
-    body_str = body.decode()
-    print(body_str)
 
-    # 3. 对json字符串进行处理 json.dumps() 将字典转换为字符串,
-    # json.loads() 将字符串转换为字典
-    import json
-    params = json.loads(body_str)
-    print(params)
+    ############################header###############################
 
-    return HttpResponse('ok')
+    # # 可以通过request.META属性获取请求头headers中的数据，request.META为字典类型
+    # # print(request.META)
+    # content_type = request.META.get('CONTENT_TYPE')
+    # print(content_type)
+    #
+    # # 自定义请求头信息，需要在postman中设置请求头，例如：name 为 xxx，
+    # #     系统会把name变为大写NAME，再加上HTTP_，变为HTTP_NAME，打印便可得到xxx
+    # name = request.META.get('HTTP_NAME')
+    # print(name)
+    #
+    # print(request.method)
+    #
+    # # user
+    # # 我们请求的时候，没有用户信息，django会自动给我们分配一个 匿名用户 --》AnonymousUser
+    # # 如果我登录了 会返回给我登录用户的信息
+    #
+    # print(request.user)
+
+
+    ############################响应###############################
+
+    # dict = {
+    #     'name':'itcast'
+    # }
+    #
+    # # import json 导入的是最后一个json
+    # data = json.dumps(dict)
+    #
+    # return HttpResponse(data,content_type='application/json')
+
+    return redirect('http://www.itheima.com')
+
+    from django.http.response import JsonResponse
+    dict = {
+        'name': 'itheima'
+    }
+
+    list = [
+        {
+            'name': 'itheima'
+        }, {
+            'name': 'aaaa'
+        }
+    ]
+
+    # safe=True
+    #　jsonresponse 可以安全的将字典转换为ｊｓｏｎ数据
+    # 如果我们传递过来是一个非字典，这个时候 系统就不负责保证能够转换为json
+    # safe=False 就相当于我们对这个代码负责
+
+    return JsonResponse(list,safe=False)
+
+    # response = HttpResponse(content=,content_type=,status=)
+    # content =,  返回的内容
+    # content_type
+    # 值： application/json       image/jpeg      image/png   image/gif
+    #       text/html   text/css    text/javascript
+    # 语法形式： 大类/小类
+    # MIME类型
+
+    # status  响应状态码
+    # response = HttpResponse(content=,content_type=,status=)
+
+
+    return HttpResponse('ok', status=500)
