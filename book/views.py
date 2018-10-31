@@ -155,7 +155,8 @@ def cookie(request):
 
 def session(request):
 
-    # 通过HttpRequest对象的session属性进行会话的读写操作,
+    # flask中直接设置session，例如：session["is_admin"] = admin.is_admin
+    # 而django中是通过HttpRequest对象的session属性进行会话的读写操作,
     #  从视图一开始便有request，方便，
     #  如果用response的话，还要接收，创建，在设置，不方便
     request.session['name']='abc'
