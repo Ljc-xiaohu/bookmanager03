@@ -21,6 +21,7 @@ def my_middleware(get_response):
     print('before_first_request')
 
     def middleware(request):
+
         # Code to be executed for each request before
         # the view (and later middleware) are called.
         # 此处编写的代码会在每个请求处理视图前被调用。
