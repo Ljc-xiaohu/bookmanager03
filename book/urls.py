@@ -15,5 +15,9 @@ urlpatterns = [
     # url(r'^(1)/(100)/$', views.demo1_book)
     url(r'^(?P<category_id>\d+)/(?P<book_id>\d+)/$', views.demo1_book),
 
-    url(r'^cookie/$',views.cookie),
+    url(r'^cookie/$', views.cookie),
+
+    # url的第二个参数： 视图函数名
+    # views.RegisterView.as_view() 就是一个视图函数名
+    url(r'^register/$', views.RegisterView.as_view()),
 ]

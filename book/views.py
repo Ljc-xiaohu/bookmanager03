@@ -153,12 +153,62 @@ def cookie(request):
 
     return response
 
-def session(request):
 
+def session(request):
     # flask中直接设置session，例如：session["is_admin"] = admin.is_admin
     # 而django中是通过HttpRequest对象的session属性进行会话的读写操作,
     #  从视图一开始便有request，方便，
     #  如果用response的话，还要接收，创建，在设置，不方便
-    request.session['name']='abc'
+    request.session['name'] = 'abc'
 
     return HttpResponse('session')
+
+
+# GET 请求 展示注册页面
+def get_register_template(request):
+    return render()
+
+
+# POST 实现注册
+def register(request):
+    pass
+
+
+def register_func(request):
+    if request.method == 'GET':
+        # GET 请求 展示注册页面
+        return render()
+    else:
+        # POST 实现注册
+        pass
+
+
+# 如果我们的请求方式多了，代码可读性很差
+#  其实我们想做的事情就是 一个请求对应一个业务逻辑
+
+# 类视图
+# 定义
+from django.views import View
+
+
+class RegisterView(View):
+    """
+    类视图中的方法名 其实就是 http的请求方法名
+    """
+
+    def get(self, request):
+        return HttpResponse('get')
+
+    # http://127.0.0.1:8000/register/  最后的/必须加，不加就运行不了
+    # 原因在于url(r'^register/$', views.RegisterView.as_view()),中是以/结尾的，
+    # 如果url(r'^register$', views.RegisterView.as_view())，
+    # 便可以访问http://127.0.0.1:8000/register，最后便不用加/
+    def post(self, request):
+        return HttpResponse('post')
+
+    def put(self, request):
+        return HttpResponse('put')
+
+    # 没有这个方法，所以不能使用这个
+    # def lalala(self,request):
+    #     return HttpResponse('lalala')
