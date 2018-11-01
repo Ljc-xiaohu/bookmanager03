@@ -1,5 +1,6 @@
 from django.conf.urls import url
 
+from book.views import login_required
 from . import views
 
 urlpatterns = [
@@ -18,6 +19,13 @@ urlpatterns = [
     url(r'^cookie/$', views.cookie),
 
     # url的第二个参数： 视图函数名
+    # 配置路由时，使用类视图的as_view()方法来添加
     # views.RegisterView.as_view() 就是一个视图函数名
     url(r'^register/$', views.RegisterView.as_view()),
+
+    # url(r'^center/$',views.CenterView.as_view()),
+
+    # views.CenterView.as_view() 视图函数名
+    # login_required(),在URL配置中装饰器
+    url(r'^center/$',login_required(views.CenterView.as_view())),
 ]

@@ -186,6 +186,11 @@ def register_func(request):
 # 如果我们的请求方式多了，代码可读性很差
 #  其实我们想做的事情就是 一个请求对应一个业务逻辑
 
+
+# 类视图的好处：
+# 1.代码可读性好
+# 2.类视图相对于函数视图有更高的复用性 ， 如果其他地方需要用到某个类视图的某个特定逻辑，直接继承该类视图即可
+
 # 类视图
 # 定义
 from django.views import View
@@ -212,3 +217,56 @@ class RegisterView(View):
     # 没有这个方法，所以不能使用这个
     # def lalala(self,request):
     #     return HttpResponse('lalala')
+
+    # 对象方法
+    # def abc(self):
+    #     pass
+    #
+    # @classmethod
+    # def get_app(cls):
+    #     pass
+    #
+    # @staticmethod
+    # def get_demo():
+    #     pass
+
+# 个人中心
+
+# GET方法 个人中心的显示
+# POST方法 个人中心的修改
+
+# 为类视图添加装饰器
+def login_required(func):
+
+    # 下面2行代码等价
+    def wrapper(request):
+    # def wrapper(request,*args,**kwargs):
+        if True:
+        # if False:
+            # 登录返回函数
+            return func(request)
+            # return func(request,*args,**kwargs)
+        else:
+            # 没有登录 返回请登录
+            return HttpResponse('请登录')
+
+    return wrapper
+
+# 类视图
+class CenterView(View):
+
+    def get(self,request):
+        return HttpResponse('个人中心展示')
+
+        # if True:
+        #     return HttpResponse('个人中心展示')
+        # else:
+        #     return HttpResponse('请登录')
+
+    def post(self,request):
+        return HttpResponse('个人中心修改')
+
+        # if True:
+        #     return HttpResponse('个人中心修改')
+        # else:
+        #     return HttpResponse('请登录')
