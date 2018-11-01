@@ -27,5 +27,8 @@ urlpatterns = [
 
     # views.CenterView.as_view() 视图函数名
     # login_required(),在URL配置中装饰器
-    url(r'^center/$',login_required(views.CenterView.as_view())),
+    # url(r'^center/$',login_required(views.CenterView.as_view())),
+
+    # 使用method_decorator将其转换为适用于类视图的装饰器的url配置
+    url(r'^center/$',views.CenterView.as_view()),
 ]

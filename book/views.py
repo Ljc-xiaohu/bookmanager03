@@ -241,8 +241,9 @@ def login_required(func):
     # 下面2行代码等价
     def wrapper(request):
     # def wrapper(request,*args,**kwargs):
-        if True:
-        # if False:
+
+        # if True:
+        if False:
             # 登录返回函数
             return func(request)
             # return func(request,*args,**kwargs)
@@ -252,8 +253,39 @@ def login_required(func):
 
     return wrapper
 
-# 类视图
-class CenterView(View):
+from django.utils.decorators import method_decorator
+
+# 在类视图中使用为函数视图准备的装饰器时，不能直接添加装饰器，
+#   需要使用method_decorator将其转换为适用于类视图的装饰器
+# 我们可以通过method_decorator 对View的某一个方法作用装饰器
+# 参数1： 装饰器
+# 参数2： 方法名
+# @method_decorator(login_required,'dispatch')
+
+
+# 构造Mixin扩展类
+# 使用面向对象多继承的特性
+class LoginRequiredMixin(object):
+
+    # 重写 as_view
+    @classmethod
+    def as_view(cls, **initkwargs):
+
+        # 1. 先调用父类，父类做了一些初始化工作，拿到as_view中的view
+        # 其中super()表示 A 的父类 C ，
+        # 原因在于 A 中没有as_view方法，便会去调用 父类 B， B中没有as_view方法，便去寻找 父类 C
+        view = super().as_view(**initkwargs)
+
+        # 使用装饰器login_required，装饰view
+        view = login_required(view)
+
+        return view
+
+# 其中 CenterView 用 A 表示，LoginRequiredMixin用 B 表示，View用 C 表示
+# (LoginRequiredMixin,View)循序不能颠倒，原因在于，
+# 如果是(View，LoginRequiredMixin)，A 先去寻找父类View，其中存在as_view方法，
+# 便不去寻找父类LoginRequiredMixin，那么父类LoginRequiredMixin中的login_required装饰起方法便不会调用
+class CenterView(LoginRequiredMixin,View):
 
     def get(self,request):
         return HttpResponse('个人中心展示')
