@@ -21,13 +21,13 @@ class BookInfoAdmin(admin.ModelAdmin):
     # fields = ['name']
     # fields 和 fieldsets是互斥的
 
-    fieldsets = (
-        ('基本', {'fields': ['name', 'pub_date']}),
-        ('高级', {
-            'fields': ['readcount', 'commentcount'],
-            'classes': ('collapse',)  # 是否折叠显示
-        })
-    )
+    # fieldsets = (
+    #     ('基本', {'fields': ['name', 'pub_date']}),
+    #     ('高级', {
+    #         'fields': ['readcount', 'commentcount'],
+    #         'classes': ('collapse',)  # 是否折叠显示
+    #     })
+    # )
 
 #注册书籍模型
 # admin.site.register(BookInfo)

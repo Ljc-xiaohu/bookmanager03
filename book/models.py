@@ -11,6 +11,10 @@ class BookInfo(models.Model):
     commentcount = models.IntegerField(default=0, verbose_name='评论量')
     is_delete = models.BooleanField(default=False, verbose_name='逻辑删除')
 
+    # upload_to 就是可以在上传的文件夹中 再指定一个文件夹
+    image = models.ImageField(verbose_name='图片', null=True,upload_to='book')
+    file = models.FileField(verbose_name='文件', null=True)
+
     def title(self):
 
         return '<<' + self.name + '>>'
